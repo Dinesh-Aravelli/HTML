@@ -25,31 +25,31 @@
 
         /* Title Bar at the top */
         .title-bar {
-            background-color: #001f3f;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            font-size: 24px;
-            font-weight: bold;
-        }
+    background-color: #001f3f;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    font-size: 24px;
+    font-weight: bold;
+}
 
         /* Horizontal Navigation Bar Below Title */
         .top-nav {
-            background-color: #003366;
-            color: white;
-            padding: 10px;
-            position: fixed;
-            top: 60px;
-            width: 100%;
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    background-color: #003366;
+    color: white;
+    padding: 10px;
+    position: fixed;
+    top: 60px;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
         .top-nav a {
             color: white;
@@ -63,19 +63,18 @@
             color: #ccc;
         }
 
-       /* Sidebar */
-        .sidebar {
-            position: fixed;
-            top: 100px; /* Adjust this value to push the buttons down below the top bar */
-            left: 0;
-            width: 250px;
-            height: calc(100% - 100px); /* Ensure the sidebar takes full height minus the top padding */
-            background-color: #004080;
-            padding-top: 20px;
-            overflow-y: auto; /* Adds scrolling if content exceeds height */
-            z-index: 1100;
-        }
-
+      /* Ensure the sidebar is not covering the content */
+.sidebar {
+    position: fixed;
+    top: 120px;
+    left: 0;
+    width: 250px;
+    height: calc(100% - 120px);
+    background-color: #004080;
+    padding-top: 20px;
+    overflow-y: auto;
+    z-index: 999;
+}
         /* Sidebar buttons */
         .sidebar .btn {
             background: none;
@@ -96,22 +95,27 @@
 
         /* Main content */
         .main-content {
-            margin-left: 270px; /* Adjusted to match the sidebar width */
-            padding: 20px;
-            padding-top: 150px;
-        }
+    min-height: calc(100vh - 160px);  /* Ensures that content takes enough height to push footer down */
+    margin-left: 270px;
+    padding: 20px;
+    padding-top: 150px;
+    box-sizing: border-box;
+}
 
         /* Footer */
         .footer {
-            background-color: #001f3f;
-            color: white;
-            text-align: center;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            padding: 10px;
-            font-size: 14px;
-        }
+    background-color: #001f3f;
+    color: white;
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    position: relative;  /* Change this from absolute */
+    clear: both;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+}
 
         /* Styles for GCAOO layout */
         .header {
@@ -365,7 +369,15 @@
             outline: none;
             box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
         }
+/* Specific CSS for Process Inventory */
+.process-inventory-page .main-content {
+    min-height: calc(100vh - 160px); /* Ensure content takes full height and footer is pushed down */
+}
 
+.process-inventory-page .footer {
+    position: relative; /* Position the footer relative for this page */
+    clear: both;
+}
     </style>
 </head>
 
@@ -633,44 +645,50 @@
                     </div>
                 `;
             } else if (page === 'processInventory') {
-                content = `
-                    <div class="blue-section">
-                        <div>
-                            <h2>Process Inventory - Important Source Links</h2>
-                        </div>
-                        <div class="profile-container">
-                            <div>
-                                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                            </div>
-                            <div>
-                                &nbsp &nbsp &nbsp &nbsp
-                            </div>
-                            <div>
-                                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                            </div>
-                        </div>
+    content = `
+        <div class="process-inventory-page">
+            <div class="blue-section">
+                <div>
+                    <h2>Process Inventory - Important Source Links</h2>
+                </div>
+                <div class="profile-container">
+                    <div>
+                        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
                     </div>
-                    <div class="team1-container">
-                        <div class="button-grid">
-                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">QA Dashboards</button>
-                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">AML QA Procedures</button>
-                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Training & Guidance</button>
-                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Onboarding QA Scripts</button>
-                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">AWARE</button>
-                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">AKRITH</button>
-                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">GDS</button>
-                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">GPS</button>
-                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Replacement Tracker</button>
-                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Restrict Lift Close Tracker</button>
-                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Financial Crimes Global Standard</button>
-                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">OPS Pipeline Tableau</button>
-                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">OPS Staffing Tracker</button>
-                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">US GCB Control Unit</button>
-                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Validation Results</button>
-                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">US Drive</button>
-                        </div>
+                    <div>
+                        &nbsp &nbsp &nbsp &nbsp
                     </div>
-                `;
+                    <div>
+                        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                    </div>
+                </div>
+            </div>
+            <div class="team1-container">
+                <div class="button-grid">
+                    <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">QA Dashboards</button>
+                    <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">AML QA Procedures</button>
+                    <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Training & Guidance</button>
+                    <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Onboarding QA Scripts</button>
+                    <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">AWARE</button>
+                    <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">AKRITH</button>
+                    <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">GDS</button>
+                    <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">GPS</button>
+                    <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Replacement Tracker</button>
+                    <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Restrict Lift Close Tracker</button>
+                    <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Financial Crimes Global Standard</button>
+                    <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">OPS Pipeline Tableau</button>
+                    <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">OPS Staffing Tracker</button>
+                    <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">US GCB Control Unit</button>
+                    <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Validation Results</button>
+                    <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">US Drive</button>
+                </div>
+                <br></br><br></br><br></br><br></br><br></br><br></br>
+                    
+            </div>
+        </div>
+    `;
+
+
             } else if (page === 'Test Execution Team') {
                 content = `
                     <div class="blue-section">
