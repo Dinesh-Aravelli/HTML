@@ -434,7 +434,7 @@
 
     <!-- Horizontal Top Navigation Below Title -->
     <div class="top-nav">
-        <button class="toggle-btn" onclick="toggleSidebar()">=</button>
+        <button class="toggle-btn" onclick="toggleSidebar(event)">=</button>
         <a href="#" onclick="loadPage('home')">Home</a>
         <a href="#" onclick="loadPage('processInventory')">Process Inventory</a>
         <a href="#" onclick="loadPage('processFlow')">Process Flow</a>
@@ -960,12 +960,14 @@
             document.getElementById('mainContent').innerHTML = content;
         }
 
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.querySelector('.main-content');
-            sidebar.classList.toggle('collapsed');
-            mainContent.classList.toggle('shifted');
-        }
+        function toggleSidebar(event) {
+    event.preventDefault(); // Prevents the page from refreshing
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.querySelector('.main-content');
+    sidebar.classList.toggle('collapsed');
+    mainContent.classList.toggle('shifted');
+}
+
 
         document.addEventListener('DOMContentLoaded', function () {
             loadPage('home');
