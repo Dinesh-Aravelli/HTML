@@ -1,148 +1,340 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GCAOO | COO – Onboarding Monitoring & Inspection (OB M&I)</title>
+    <title>Onboarding M&I</title>
+
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <style>
-        
-        body {
+        * {
             margin: 0;
-            font-family: Arial, sans-serif;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* Header */
-        header {
-    background-color: #003366;
-    color: white;
-    text-align: center;
-    padding: 1rem;
-    position: relative; /* Changed from fixed */
-    top: 0;
-    width: 100%;
-}
+        body,
+        html {
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+        }
 
-        /* Navigation Bar */
-        nav {
-    background-color: #00509E;
-    text-align: center;
-    padding: 10px;
-    margin-top: 0;
-    position: relative; /* Changed from fixed */
-    width: 100%;
-}
-
-        nav a {
-            display: inline-block;
+        /* Title Bar at the top */
+        .title-bar {
+            background-color: #001f3f;
             color: white;
+            padding: 20px;
             text-align: center;
-            padding: 14px 20px;
-            text-decoration: none;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Horizontal Navigation Bar Below Title */
+        .top-nav {
+            background-color: #003366;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            top: 60px;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .top-nav .toggle-btn {
+            position: absolute;
+            left: 20px;
             font-size: 18px;
             cursor: pointer;
+            color: white;
+            background-color: #001f3f;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
         }
 
-        nav a:hover {
+        .top-nav .toggle-btn:hover {
             background-color: #003366;
+        }
+
+        .top-nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        .top-nav a:hover {
+            color: #ccc;
         }
 
         /* Sidebar */
         .sidebar {
-    width: 250px;
-    background-color: #003366;
-    color: white;
-    padding: 15px;
-    float: left;
-    height: 100vh;
-    position: relative; /* Relative positioning */
-}
-        .sidebar a {
+            position: fixed;
+            top: 120px;
+            left: 0;
+            width: 250px;
+            height: calc(100% - 120px);
+            background-color: #004080;
+            padding-top: 20px;
+            overflow-y: auto;
+            transition: width 0.3s;
+        }
+
+        .sidebar.collapsed {
+            width: 0;
+            overflow: hidden;
+        }
+
+        /* Sidebar buttons */
+        .sidebar .btn {
+            background: none;
+            border: none;
             color: white;
-            text-decoration: none;
-            display: block;
-            padding: 10px 0;
+            width: 100%;
+            padding: 15px;
+            text-align: left;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background 0.3s ease;
         }
-        .sidebar a:hover {
-            background-color: #002244;
+
+        .sidebar .btn:hover {
+            background-color: #0066cc;
         }
+
         /* Main content */
         .main-content {
-    margin-left: 270px;
-    padding: 20px;
-    display: block;
-    margin-top: 20px; /* Add some top margin to separate content from nav */
-}
+            margin-left: 270px;
+            padding: 20px;
+            padding-top: 150px;
+            transition: margin-left 0.3s;
+        }
 
-        /* Common Section Styling */
+        .main-content.shifted {
+            margin-left: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #001f3f;
+            color: white;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        /* Styles for GCAOO layout */
+        .header {
+            background-color: white;
+            color: black;
+            padding: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+            text-align: left;
+        }
+
         .blue-section {
-    background-color: #004a99;
-    color: white;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 1s forwards;
-}
+            background-color: #004a99;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0; /* Start hidden for fade animation */
+            transform: translateY(-20px); /* Start above for up animation */
+            animation: fadeInUp 1s forwards; /* Apply animation */
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .blue-section h2 {
             margin: 0;
             font-size: 1.5em;
         }
 
         .profile-container {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-        .profile-container div {
-            margin-right: 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
         }
 
         .profile-container img {
-    border-radius: 50%;
-    width: 90px;
-    height: 90px;
-    margin-left: 15px;
-    margin-right: 15px;
-    border: 3px solid white;
-}
+            border-radius: 50%;
+            width: 90px;
+            height: 90px;
+            margin-left: 15px; /* Space between the photo and text */
+            margin-right: 15px; /* Space between text and photo */
+            border: 3px solid white;
+        }
 
-        /* Team Box Container */
+        .profile-container div {
+            text-align: left;
+        }
+
+        .description-text {
+            background-color: white;
+            padding: 10px 20px;
+            font-size: 0.95em;
+            color: #333;
+        }
+
+        .content-wrapper {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .left-content {
+            width: 25%;
+            background-color: #e0e0e0;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .left-content h3 {
+            font-size: 1.3em;
+            color: #1f4e79;
+            margin-bottom: 10px;
+        }
+
+        .separator {
+            width: 100%;
+            height: 2px;
+            background-color: #1f4e79;
+            margin: 20px 0;
+        }
+
+        .right-content {
+            display: flex;
+            width: 70%;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .section {
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-left: 2px solid #1f4e79;
+            width: 47%;
+        }
+
+        /* Add margins to bullet points */
+        ul {
+            margin-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .profile-section {
+            background-color: #004a99;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0; /* Start hidden for fade animation */
+            transform: translateY(20px); /* Start below for up animation */
+            animation: fadeInUp 1s forwards; /* Apply animation */
+            animation-delay: 0.5s; /* Delay for a smoother effect */
+        }
+
+        .profile-card {
+            text-align: center;
+            margin: 10px;
+        }
+
+        .profile-card img {
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            border: 3px solid white;
+        }
+
+        .profile-title {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        /* Adjust the profile cards in the "Data Admin & Reporting" to be horizontal */
+        .data-admin {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .data-admin .profile-card {
+            margin: 0 20px;
+            text-align: center;
+        }
+
+        /* Add animations for the second section */
+        .data-admin-title {
+            opacity: 0; /* Start hidden for fade animation */
+            transform: translateY(20px); /* Start below for up animation */
+            animation: fadeInUp 1s forwards; /* Apply animation */
+            animation-delay: 1s; /* Delay for a smoother effect */
+        }
+
+        .data-admin-cards {
+            opacity: 0; /* Start hidden for fade animation */
+            transform: translateY(20px); /* Start below for up animation */
+            animation: fadeInUp 1s forwards; /* Apply animation */
+            animation-delay: 1.5s; /* Delay for a smoother effect */
+            display: flex; /* Flex layout for horizontal alignment */
+            justify-content: center; /* Center the cards */
+        }
+
+        /* Orgstructure Page - Team Directory */
         .team-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 20px;
             justify-content: space-between;
+            gap: 20px;
         }
 
-        /* Team Section */
         .team-section {
             background-color: #ffffff;
             border-radius: 8px;
             padding: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             flex: 1;
-            min-width: 18%;
-            max-width: 18%;
+            min-width: 300px;
         }
 
-        .team-section h3 {
-            font-size: 20px;
+        .team-header {
+            font-size: 24px;
             color: #333;
             margin-bottom: 10px;
-        }
-
-        ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        ul li {
-            margin-bottom: 10px;
+            text-align: center;
         }
 
         .region-header {
@@ -176,663 +368,611 @@
             font-weight: bold;
         }
 
+        .member .role {
+            font-size: 0.8em;
+        }
 
-        /* Profile section styles */
-        .profile-section {
+        .blue-box {
+            background-color: #004a99;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        /* Button Grid Styles */
+        /* Button Grid Styles */
+.button-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Four buttons per row */
+    gap: 20px; /* Space between buttons */
+    justify-content: center; /* Center the buttons horizontally */
+    align-items: center; /* Center buttons vertically */
+    padding: 20px;
+    height: 100%; /* Take full height of the container */
+}
+
+.inventory-btn {
     background-color: #004a99;
     color: white;
     padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 1.5s forwards;
-}
-
-
-.profile-card {
+    font-size: 18px;
+    border: none;
+    border-radius: 10px; /* Rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
     text-align: center;
-    margin: 10px;
-    flex: 1;
 }
 
-.profile-card img {
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    border: 3px solid white;
-}
-
-
-.profile-title {
-    font-size: 1.1em;
-    margin-bottom: 10px;
-}
-
-
-        /* Button Grid Styles */
-        .button-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .inventory-btn {
-            background-color: #004a99;
-            color: white;
-            padding: 20px;
-            font-size: 18px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            text-align: center;
-        }
-
-        .inventory-btn:hover {
-            background-color: #003366;
-            transform: scale(1.05);
-        }
-
-        .team1-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
-
-        .description-text {
-            background-color: white;
-            padding: 10px 20px;
-            font-size: 0.95em;
-            color: #333;
-            margin-top: 20px;
-        }
-
-        .content-wrapper {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px;
-        }
-
-        .left-content {
-            width: 25%;
-            background-color: #e0e0e0;
-            padding: 20px;
-            border-radius: 8px;
-        }
-
-        .separator {
-            width: 100%;
-            height: 2px;
-            background-color: #1f4e79;
-            margin: 20px 0;
-        }
-
-        .right-content {
-            display: flex;
-            width: 70%;
-            justify-content: space-between;
-            gap: 10px;
-        }
-
-        .section {
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-left: 2px solid #1f4e79;
-            width: 47%;
-        }
-
-        /* Footer */
-        footer {
+.inventory-btn:hover {
     background-color: #003366;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    display: inline-block;
-    width: 100%;
-    position: relative;
-    bottom: 0;
+    transform: scale(1.05); /* Slight zoom effect on hover */
 }
 
-
-        footer p {
-            margin: 0;
-            font-size: 14px;
-        }
-
-        @keyframes fadeInUp {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.inventory-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); /* Focus outline effect */
 }
+
+/* Centering the button container */
+.team1-container {
+    display: flex;
+    justify-content: center; /* Horizontally center */
+    align-items: center; /* Vertically center */
+    height: 15vh; /* Full viewport height */
+}
+
 
 
     </style>
-
-    <script>
-        function loadHome() {
-            var content = document.getElementById('content');
-            content.innerHTML = `
-                <div class="blue-section">
-                    <div>
-                        <h2>What We Do</h2>
-                    </div>
-                    <div class="profile-container">
-                        <div>
-                            <h4>Tina Frostbutter</h4>
-                            <p>Business Control Manager</p>
-                            <p>Charlotte, NC</p>
-                        </div>
-                        <img src="https://via.placeholder.com/90" alt="Tina Frostbutter">
-                        <div>
-                            <h4>Akinbami Folarin</h4>
-                            <p>Global Test Management</p>
-                            <p>& Oversight Manager</p>
-                        </div>
-                        <img src="https://via.placeholder.com/90" alt="Akinbami Folarin">
-                    </div>
-                </div>
-
-                <div class="description-text">
-                    <p>The Onboarding M&I Team supports the business by providing post-process quality review metrics on the performance of the quality program.</p>
-                </div>
-
-                <div class="content-wrapper">
-                    <div class="left-content">
-                        <h3>Team Functions</h3>
-                        <ul>
-                            <li>Global Test Management & Oversight</li>
-                            <li>Test Execution</li>
-                            <li>Strategy & Initiatives</li>
-                            <li>Design Specialist</li>
-                            <li>Risk Reporting & Data Analytics</li>
-                            <li>Test Owner Representative</li>
-                        </ul>
-                        <div class="separator"></div>
-                        <h3>Core Locations</h3>
-                        <ul>
-                            <li>Charlotte, NC (6 HC)</li>
-                            <li>New York, NY (2 HC)</li>
-                            <li>Jacksonville, FL (4 HC)</li>
-                            <li>Bromley, UK (6 HC)</li>
-                            <li>Singapore, SG (5 HC)</li>
-                            <li>GBS (4)</li>
-                        </ul>
-                    </div>
-                    <div class="right-content">
-                        <div class="section">
-                            <h3>Global Test Management & Oversight</h3>
-                            <ul>
-                                <li>Oversee Onboarding M&I test execution</li>
-                                <li>Population assignment, materiality, and replacement management</li>
-                                <li>Advisor to LOB/Risk partners on OB M&I Framework and Testing Portfolio</li>
-                                <li>Provide feedback/approval to QA test scripts</li>
-                                <li>Manage rebuttal requests and decisions</li>
-                                <li>Review data and prepare responses for both internal and Audit/GFC/GCOR inquiries</li>
-                                <li>Produces Executive Reporting (i.e., Monthly Business Reviews, QA updates)</li>
-                            </ul>
-                            <h3>Test Execution</h3>
-                            <ul>
-                                <li>Perform testing</li>
-                                <li>Highlight testing concerns to Testing Management and Oversight leads</li>
-                                <li>Ensure defects have been appropriately remediated</li>
-                                <li>Ensure evidence has been appropriately retained</li>
-                            </ul>
-                        </div>
-                        <div class="section">
-                            <h3>Design Specialist</h3>
-                            <ul>
-                                <li>Manage intake process for new QA requests, including targeted testing</li>
-                                <li>Test script and test procedure development</li>
-                                <li>Arrange training plan between testing team and LOB SME</li>
-                                <li>Ongoing maintenance of test scripts (with LOB and QA Manager approvals)</li>
-                                <li>Performs Validation review to ensure test is being performed by design</li>
-                            </ul>
-                            <h3>Data Admin & Reporting</h3>
-                            <ul>
-                                <li>Source population reports, identify and assign samples</li>
-                                <li>Create metric scorecards and reporting</li>
-                                <li>Design, create, and distribute internal and external BAU and ad hoc reports</li>
-                            </ul>
-                        </div>
-                        
-                    </div>
-                </div>
-
-                <!-- Profile Section added below content -->
-                <div class="profile-section">
-                    <div class="profile-card">
-                        <h4 class="profile-title">Strategy & Initiatives</h4>
-                        <img src="https://via.placeholder.com/80" alt="Erin Gibson">
-                        <p>Erin Gibson</p>
-                    </div>
-
-                    <div class="profile-card">
-                        <h4 class="profile-title">Design Specialist</h4>
-                        <img src="https://via.placeholder.com/80" alt="Niya McClurkin">
-                        <p>Niya McClurkin</p>
-                    </div>
-
-                    <!-- Merged Data Admin & Reporting Section -->
-                    <div class="profile-card">
-                        <h4 class="profile-title">Data Admin & Reporting</h4>
-                        <div style="display: flex; gap: 20px;">
-                            <div>
-                                <img src="https://via.placeholder.com/80" alt="Keegan Carlson">
-                                <p>Keegan Carlson</p>
-                            </div>
-                            <div>
-                                <img src="https://via.placeholder.com/80" alt="Seshu Aravelli">
-                                <p>Seshu Aravelli</p>
-                            </div>
-                            <div>
-                                <img src="https://via.placeholder.com/80" alt="Mradul Awasthi">
-                                <p>Mradul Awasthi</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="profile-card">
-                        <h4 class="profile-title">Test Owner Representative</h4>
-                        <img src="https://via.placeholder.com/80" alt="David Cline">
-                        <p>David Cline</p>
-                    </div>
-                </div>
-            `;
-        }
-
-        function loadProcessInventory() {
-            var content = document.getElementById('content');
-            content.innerHTML = `
-                <div class="blue-section">
-                    <div>
-                        <h2>Process Inventory - Important Source Links</h2>
-                    </div>
-                </div>
-                <div class="team1-container">
-                    <div class="button-grid">
-                        <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">QA Dashboards</button>
-                        <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">AML QA Procedures</button>
-                        <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Training & Guidance</button>
-                        <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Onboarding QA Scripts</button>
-                        <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">AWARE</button>
-                        <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">AKRITH</button>
-                        <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">GDS</button>
-                        <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">GPS</button>
-                        <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Replacement Tracker</button>
-                        <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Restrict Lift Close Tracker</button>
-                        <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Financial Crimes Global Standard</button>
-                        <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">OPS Pipeline Tableau</button>
-                        <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">OPS Staffing Tracker</button>
-                        <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">US GCB Control Unit</button>
-                        <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Validation Results</button>
-                        <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">US Drive</button>
-                    </div>
-                </div>
-            `;
-        }
-
-        function loadProcessFlow() {
-            var content = document.getElementById('content');
-            content.innerHTML = `
-                <div class="blue-section">
-                    <div>
-                        <h2>Process Roles and Responsibilities Flow</h2>
-                    </div>
-                    <div class="profile-container">
-                        <div>
-                            <h4>Lesley Maffettone</h4>
-                            <p>COO | Global Credit, AML & Onboarding Operations & Bussiness Executive</p>
-                            <p>Pennington, NJ</p>
-                        </div>
-                        <div>&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                        <div>
-                            <h4>Tina Frostbutter</h4>
-                            <p>Business Control Manager</p>
-                            <p>Charlotte, NC</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="team-container">
-                    <div class="team-section">
-                        <h3>Global Test Management & Oversight</h3>
-                        <ul>
-                            <li><strong>Folarin Akinbami:</strong> Oversee Onboarding M&I test execution</li>
-                            <li>Population assignment, materiality and advisor to LOB/Risk partners on Onboarding M&I Framework and Testing Portfolio</li>
-                            <li>Provide feedback/approval to QA test scripts</li>
-                            <li>Manage rebuttal requests and decisions</li>
-                            <li>Review data and prepare responses for both internal and Audit/GF/GC/GCOR Inquiries</li>
-                            <li>Produces Executive Reporting (i.e. Monthly Business Reviews, QA updates)</li>
-                            <li>Communications (scripts, reporting, risk partners, team)</li>
-                            <li>Metric attestation</li>
-                        </ul>
-                    </div>
-
-                    <div class="team-section">
-                        <h3>Strategy & Initiatives</h3>
-                        <ul>
-                            <li><strong>Erin Gibson:</strong> Manage OB M&I Testing Portfolio</li>
-                            <li>Audit/GFC/GCOR testing results compared to current test portfolio/scripts</li>
-                            <li>Oversee execution of all risk initiatives, including all action steps owned by OB M&I</li>
-                            <li>Maintains OB M&I Governance Framework, routines and supplemental documents to execute the model</li>
-                        </ul>
-                    </div>
-
-                    <div class="team-section">
-                        <h3>Design Specialist</h3>
-                        <ul>
-                            <li><strong>Niya McClurkin:</strong> Manage intake process for new QA requests, including targeted testing</li>
-                            <li>Test script and test procedure development</li>
-                            <li>Arrange training plan between testing team and LOB SME</li>
-                            <li>Ongoing maintenance of test scripts (with LOB and QA Manager approvals)</li>
-                            <li>Ongoing maintenance of test forms on testing tool</li>
-                            <li>Performs Validation review to ensure test is being performed by design</li>
-                        </ul>
-                    </div>
-
-                    <div class="team-section">
-                        <h3>Risk Reporting & Data Analytics</h3>
-                        <ul>
-                            <li><strong>Keegan Carlson, Suchu Arveil, Mruadi Awath:</strong> Source population reports and create metric scorecards and reporting</li>
-                            <li>Design, create and distribute internal and external BAU and ad hoc reports</li>
-                            <li>Review, assess, and interpret data into meaningful actionable points (i.e., trending, root cause analysis, controls, etc.)</li>
-                            <li>Identify and develop targeted exception reporting</li>
-                        </ul>
-                    </div>
-
-                    <div class="team-section">
-                        <h3>Test Owner Representative</h3>
-                        <ul>
-                            <li><strong>Michael Mehren:</strong> Identify and define testing requirements based on Enterprise Independent Testing</li>
-                            <li>Submit testing needs to Enterprise Independent Testing Teams</li>
-                            <li>Participate with EIT to set priorities and balance demand and capacity, as applicable</li>
-                            <li>Provide support in the development and implementation of requested tests</li>
-                            <li>Identify FLU/CF & Data Contacts and Data Sources, Data Elements or provide contacts</li>
-                            <li>Assist ensuring the FLU/CF & Tech Data Contacts validate population & test data</li>
-                            <li>Review, validate preliminary results & submit requests to dispute preliminary test results; or present/request for final test results in writing</li>
-                            <li>Approve test results to become final as applicable, review/communicate/escalate results</li>
-                        </ul>
-                    </div>
-                </div>
-            `;
-        }
-
-        function loadTestExecutionTeam() {
-            var content = document.getElementById('content');
-            content.innerHTML = `
-                <div class="blue-section">
-                    <div>
-                        <h2>Process Roles and Responsibilities Flow</h2>
-                    </div>
-                    <div class="profile-container">
-                        <img src="https://via.placeholder.com/90" alt="Akinbami Folarin">
-                        <div>
-                            <h4>Tina Frostbutter</h4>
-                            <p>Business Control Manager</p>
-                            <p>Charlotte, NC</p>
-                        </div>
-
-                        <img src="https://via.placeholder.com/90" alt="Tina Frostbutter">
-                        <div>
-                            <h4>Lesley Maffettone</h4>
-                            <p>Global Credit, AML and Onboarding Operations</p>
-                            <p>& Oversight Manager</p>
-                        </div>
-
-                        <img src="https://via.placeholder.com/90" alt="Tina Frostbutter">
-                        <div>
-                            <h4>Niya McClurkin</h4>
-                            <p>Test Script Design Specialist & Process Trainer</p>
-                            <p>Charlotte, NC</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Horizontal Region Headers -->
-                <div class="team-container">
-                    <div class="team-section">
-                        <div class="region-header">AMRS</div>
-                        <div class="member">
-                            <img src="https://via.placeholder.com/50" alt="Marlyn Rojas">
-                            <div>
-                                <p class="name">Marlyn Rojas</p>
-                                <ul>
-                                    <li>AMRS/LATAM & US GCB Team Lead, Jacksonville, US</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="member">
-                            <img src="https://via.placeholder.com/50" alt="Ilda Santos">
-                            <div>
-                                <p class="name">Ilda Santos</p>
-                                <ul>
-                                    <li>US GCB AMRS Analyst, New York, US</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="member">
-                            <img src="https://via.placeholder.com/50" alt="Dominique DeObn">
-                            <div>
-                                <p class="name">Dominique DeObn</p>
-                                <ul>
-                                    <li>US GCB AMRS Analyst, New York, US</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="member">
-                            <img src="https://via.placeholder.com/50" alt="Richard Stephens">
-                            <div>
-                                <p class="name">Richard Stephens</p>
-                                <ul>
-                                    <li>US GCB AMRS Analyst, Jacksonville, US</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="member">
-                            <img src="https://via.placeholder.com/50" alt="Cristy Pugliese">
-                            <div>
-                                <p class="name">Cristy Pugliese</p>
-                                <ul>
-                                    <li>AMRS Analyst, Jacksonville, US</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="member">
-                            <img src="https://via.placeholder.com/50" alt="Tonya Stallings">
-                            <div>
-                                <p class="name">Tonya Stallings</p>
-                                <ul>
-                                    <li>AMRS Analyst, Jacksonville, US</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="member">
-                            <img src="https://via.placeholder.com/50" alt="Camila McKenzie">
-                            <div>
-                                <p class="name">Camila McKenzie</p>
-                                <ul>
-                                    <li>LATAM Analyst, Charlotte, US</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="team-section">
-                        <div class="region-header">APAC</div>
-                        <div class="member">
-                            <img src="https://via.placeholder.com/50" alt="Chethan Somashekhar">
-                            <div>
-                                <p class="name">Chethan Somashekhar</p>
-                                <ul>
-                                    <li>APAC Team Lead, Singapore</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="member">
-                            <img src="https://via.placeholder.com/50" alt="Frank Escabas">
-                            <div>
-                                <p class="name">Frank Escabas</p>
-                                <ul>
-                                    <li>APAC Analyst, Singapore</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="member">
-                            <img src="https://via.placeholder.com/50" alt="Elvira Mahara">
-                            <div>
-                                <p class="name">Elvira Mahara</p>
-                                <ul>
-                                    <li>APAC Analyst, Singapore</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="member">
-                            <img src="https://via.placeholder.com/50" alt="Rehana Sultana">
-                            <div>
-                                <p class="name">Rehana Sultana</p>
-                                <ul>
-                                    <li>APAC Analyst, Singapore</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="member">
-                            <img src="https://via.placeholder.com/50" alt="Zhi Yang Pang">
-                            <div>
-                                <p class="name">Zhi Yang Pang</p>
-                                <ul>
-                                    <li>APAC Analyst, Singapore</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="team-section">
-                        <div class="region-header">EMEA</div>
-                        <div class="member">
-                            <img src="https://via.placeholder.com/50" alt="Vadym Voloshchuk">
-                            <div>
-                                <p class="name">Vadym Voloshchuk</p>
-                                <ul>
-                                    <li>EMEA Team Lead</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="member">
-                            <img src="https://via.placeholder.com/50" alt="Joseph Martins">
-                            <div>
-                                <p class="name">Joseph Martins</p>
-                                <ul>
-                                    <li>EMEA Analyst, UK</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="member">
-                            <img src="https://via.placeholder.com/50" alt="Olimpia De Veiga">
-                            <div>
-                                <p class="name">Olimpia De Veiga</p>
-                                <ul>
-                                    <li>EMEA Analyst, UK</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="member">
-                            <img src="https://via.placeholder.com/50" alt="Olateju Coker">
-                            <div>
-                                <p class="name">Olateju Coker</p>
-                                <ul>
-                                    <li>EMEA Analyst, UK</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="member">
-                            <img src="https://via.placeholder.com/50" alt="Wealth Mafemi">
-                            <div>
-                                <p class="name">Wealth Mafemi</p>
-                                <ul>
-                                    <li>EMEA Analyst, UK</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="team-section">
-                        <div class="region-header">GBS</div>
-                        <div class="member">
-                            <img src="https://via.placeholder.com/50" alt="Ratikanth Panda">
-                            <div>
-                                <p class="name">Ratikanth Panda</p>
-                                <ul>
-                                    <li>Analyst, GBS</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="member">
-                            <img src="https://via.placeholder.com/50" alt="Arun Dhaliwani">
-                            <div>
-                                <p class="name">Arun Dhaliwani</p>
-                                <ul>
-                                    <li>Analyst, GBS</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-    </script>
 </head>
-<body onload="loadHome()">
 
-    <!-- Header -->
-    <header>
-        <h1>GCAOO | COO – Onboarding Monitoring & Inspection (OB M&I)</h1>
-    </header>
+<body>
+    <!-- Title Bar -->
+    <div class="title-bar">
+        GCAOO | COO – Onboarding Monitoring & Inspection (OB M&I)
+    </div>
 
-    <!-- Navigation Bar -->
-    <nav>
-        <a href="javascript:void(0)" onclick="loadHome()">Home</a>
-        <a href="javascript:void(0)" onclick="loadProcessInventory()">Process Inventory</a>
-        <a href="javascript:void(0)" onclick="loadProcessFlow()">Process Flow</a>
-        <a href="javascript:void(0)" onclick="loadTestExecutionTeam()">Test Execution Team</a>
-    </nav>
+    <!-- Horizontal Top Navigation Below Title -->
+    <div class="top-nav">
+        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+        <a href="#" onclick="loadPage('home')">Home</a>
+        <a href="#" onclick="loadPage('processInventory')">Process Inventory</a>
+        <a href="#" onclick="loadPage('processFlow')">Process Flow</a>
+        <a href="#" onclick="loadPage('Test Execution Team')">Test Execution Team</a>
+    </div>
 
     <!-- Sidebar -->
-    <div id="sidebar" class="sidebar">
-        <a href="#akrit">AKRITH</a>
-        <a href="#aware">AWARE</a>
-        <a href="#gds">GDS</a>
-        <a href="#gps">GPS</a>
-        <a href="#replacement-tracker">Replacement Tracker</a>
-        <a href="#eit-doc-library">EIT Doc Library</a>
-        <a href="#restricted-tracker">Restricted/Lift/Closure Tracker</a>
-        <a href="#financial-crime-standards">Financial Crime Global Standards</a>
-        <a href="#eit-cqr">EIT CQR</a>
-        <a href="#ops-dashboard">OPS Dashboard</a>
-        <a href="#ops-staffing-tracker">OPS Staffing Tracker</a>
-        <a href="#us-gcb-control">US GCB Control Unit</a>
-        <a href="#validation-results">Validation Results</a>
-        <a href="#aml-data">AML Data</a>
+    <div class="sidebar" id="sidebar">
+        <button class="btn" onclick="window.open('https://www.google.com', '_blank')">AKRITH</button>
+        <button class="btn" onclick="window.open('https://www.google.com', '_blank')">AWARE</button>
+        <button class="btn" onclick="window.open('https://www.google.com', '_blank')">GDS</button>
+        <button class="btn" onclick="window.open('https://www.google.com', '_blank')">GPS</button>
+        <button class="btn" onclick="window.open('https://www.google.com', '_blank')">Replacement Tracker</button>
+        <button class="btn" onclick="window.open('https://www.google.com', '_blank')">EIT Doc Library</button>
+        <button class="btn" onclick="window.open('https://www.google.com', '_blank')">Restricted/Lift/Closure Tracker</button>
+        <button class="btn" onclick="window.open('https://www.google.com', '_blank')">Financial Crime Global Standards</button>
+        <button class="btn" onclick="window.open('https://www.google.com', '_blank')">EIT CQR</button>
+        <button class="btn" onclick="window.open('https://www.google.com', '_blank')">OPS Dashboard</button>
+        <button class="btn" onclick="window.open('https://www.google.com', '_blank')">OPS Staffing Tracker</button>
+        <button class="btn" onclick="window.open('https://www.google.com', '_blank')">US GCB Control Unit</button>
+        <button class="btn" onclick="window.open('https://www.google.com', '_blank')">Validation Results</button>
+        <button class="btn" onclick="window.open('https://www.google.com', '_blank')">AML Data</button>
+        <button class="btn" onclick="loadPage('button2')">Button 2</button>
     </div>
 
     <!-- Main Content -->
-    <div id="content" class="main-content"></div>
-    
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 GCAOO | All Rights Reserved | Onboarding Monitoring & Inspection (OB M&I)</p>
-    </footer>
+    <div class="main-content" id="mainContent">
+        <!-- Content will load here -->
+    </div>
 
+    <!-- Footer -->
+    <div class="footer">
+        © 2024 High-Tech Website. All Rights Reserved.
+    </div>
+
+    <script>
+        function loadPage(page) {
+            let content = '';
+            if (page === 'home') {
+                content = `
+                    <div class="header">
+                        GCAOO | COO – Onboarding Monitoring & Inspection (OB M&I)
+                    </div>
+                    <div class="blue-section">
+                        <div>
+                            <h2>What We Do</h2>
+                        </div>
+                        <div class="profile-container">
+                            <div>
+                                <h4>Tina Frostbutter</h4>
+                                <p>Business Control Manager</p>
+                                <p>Charlotte, NC</p>
+                            </div>
+                            <img src="https://via.placeholder.com/90" alt="Tina Frostbutter">
+                            <div>
+                                <h4>Akinbami Folarin</h4>
+                                <p>Global Test Management</p>
+                                <p>& Oversight Manager</p>
+                            </div>
+                            <img src="https://via.placeholder.com/90" alt="Akinbami Folarin">
+                        </div>
+                    </div>
+                    <div class="description-text">
+                        <p>The Onboarding M&I Team supports the business by providing post-process quality review metrics on the performance of the quality program.</p>
+                    </div>
+                    <div class="content-wrapper">
+                        <div class="left-content">
+                            <h3>Team Functions</h3>
+                            <ul>
+                                <li>Global Test Management & Oversight</li>
+                                <li>Test Execution</li>
+                                <li>Strategy & Initiatives</li>
+                                <li>Design Specialist</li>
+                                <li>Risk Reporting & Data Analytics</li>
+                                <li>Test Owner Representative</li>
+                            </ul>
+                            <div class="separator"></div>
+                            <h3>Core Locations</h3>
+                            <ul>
+                                <li>Charlotte, NC (6 HC)</li>
+                                <li>New York, NY (2 HC)</li>
+                                <li>Jacksonville, FL (4 HC)</li>
+                                <li>Bromley, UK (6 HC)</li>
+                                <li>Singapore, SG (5 HC)</li>
+                                <li>GBS (4)</li>
+                            </ul>
+                        </div>
+                        <div class="right-content">
+                            <div class="section">
+                                <h3>Global Test Management & Oversight</h3>
+                                <ul>
+                                    <li>Oversee Onboarding M&I test execution</li>
+                                    <li>Population assignment, materiality, and replacement management</li>
+                                    <li>Advisor to LOB/Risk partners on OB M&I Framework and Testing Portfolio</li>
+                                    <li>Provide feedback/approval to QA test scripts</li>
+                                    <li>Manage rebuttal requests and decisions</li>
+                                    <li>Review data and prepare responses for both internal and Audit/GFC/GCOR inquiries</li>
+                                    <li>Produces Executive Reporting (i.e., Monthly Business Reviews, QA updates)</li>
+                                </ul>
+                                <h3>Test Execution</h3>
+                                <ul>
+                                    <li>Perform testing</li>
+                                    <li>Highlight testing concerns to Testing Management and Oversight leads</li>
+                                    <li>Ensure defects have been appropriately remediated</li>
+                                    <li>Ensure evidence has been appropriately retained</li>
+                                </ul>
+                            </div>
+                            <div class="section">
+                                <h3>Design Specialist</h3>
+                                <ul>
+                                    <li>Manage intake process for new QA requests, including targeted testing</li>
+                                    <li>Test script and test procedure development</li>
+                                    <li>Arrange training plan between testing team and LOB SME</li>
+                                    <li>Ongoing maintenance of test scripts (with LOB and QA Manager approvals)</li>
+                                    <li>Performs Validation review to ensure test is being performed by design</li>
+                                </ul>
+                                <h3>Data Admin & Reporting</h3>
+                                <ul>
+                                    <li>Source population reports, identify and assign samples</li>
+                                    <li>Create metric scorecards and reporting</li>
+                                    <li>Design, create, and distribute internal and external BAU and ad hoc reports</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- New Profile Section (Below 3rd Section) -->
+                    <div class="profile-section">
+                        <div class="profile-card">
+                            <h4 class="profile-title">Strategy & Initiatives</h4>
+                            <img src="https://via.placeholder.com/80" alt="Erin Gibson">
+                            <p>Erin Gibson</p>
+                        </div>
+
+                        <div class="profile-card">
+                            <h4 class="profile-title">Design Specialist</h4>
+                            <img src="https://via.placeholder.com/80" alt="Niya McClurkin">
+                            <p>Niya McClurkin</p>
+                        </div>
+
+                        <!-- Merged Data Admin & Reporting Section -->
+                        <div class="profile-card">
+                            <h4 class="profile-title">Data Admin & Reporting</h4>
+                            <div style="display: flex; gap: 20px;">
+                                <div>
+                                    <img src="https://via.placeholder.com/80" alt="Keegan Carlson">
+                                    <p>Keegan Carlson</p>
+                                </div>
+                                <div>
+                                    <img src="https://via.placeholder.com/80" alt="Seshu Aravelli">
+                                    <p>Seshu Aravelli</p>
+                                </div>
+                                <div>
+                                    <img src="https://via.placeholder.com/80" alt="Mradul Awasthi">
+                                    <p>Mradul Awasthi</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-card">
+                            <h4 class="profile-title">Test Owner Representative</h4>
+                            <img src="https://via.placeholder.com/80" alt="David Cline">
+                            <p>David Cline</p>
+                        </div>
+                    </div>
+                `;
+
+            } else if (page === 'Test Execution Team') {
+                content = `
+                    <div class="blue-section">
+                        <div>
+                            <h2>Process Roles and Responsibilities Flow </h2>
+                        </div>
+                        <div class="profile-container">
+                            <img src="https://via.placeholder.com/90" alt="Akinbami Folarin">
+                            <div>
+                                <h4>Tina Frostbutter</h4>
+                                <p>Business Control Manager</p>
+                                <p>Charlotte, NC</p>
+                            </div>
+
+                            <img src="https://via.placeholder.com/90" alt="Tina Frostbutter">
+                            <div>
+                                <h4>Lesley Maffettone</h4>
+                                <p>Global Credit, AML and Onboarding Operations</p>
+                                <p>& Oversight Manager</p>
+                            </div>
+
+                            <img src="https://via.placeholder.com/90" alt="Tina Frostbutter">
+                            <div>
+                                <h4>Niya McClurkin</h4>
+                                <p>Test Script Design Specialist & Process Trainer</p>
+                                <p>Charlotte, NC</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Horizontal Region Headers -->
+                    <div class="team-container">
+                        <div class="team-section">
+                            <div class="region-header">AMRS</div>
+                            <div class="member">
+                                <img src="https://via.placeholder.com/50" alt="Marlyn Rojas">
+                                <div>
+                                    <p class="name">Marlyn Rojas</p>
+                                    <ul>
+                                        <li>AMRS/LATAM & US GCB Team Lead, Jacksonville, US</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="member">
+                                <img src="https://via.placeholder.com/50" alt="Ilda Santos">
+                                <div>
+                                    <p class="name">Ilda Santos</p>
+                                    <ul>
+                                        <li>US GCB AMRS Analyst, New York, US</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="member">
+                                <img src="https://via.placeholder.com/50" alt="Dominique DeObn">
+                                <div>
+                                    <p class="name">Dominique DeObn</p>
+                                    <ul>
+                                        <li>US GCB AMRS Analyst, New York, US</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="member">
+                                <img src="https://via.placeholder.com/50" alt="Richard Stephens">
+                                <div>
+                                    <p class="name">Richard Stephens</p>
+                                    <ul>
+                                        <li>US GCB AMRS Analyst, Jacksonville, US</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="member">
+                                <img src="https://via.placeholder.com/50" alt="Cristy Pugliese">
+                                <div>
+                                    <p class="name">Cristy Pugliese</p>
+                                    <ul>
+                                        <li>AMRS Analyst, Jacksonville, US</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="member">
+                                <img src="https://via.placeholder.com/50" alt="Tonya Stallings">
+                                <div>
+                                    <p class="name">Tonya Stallings</p>
+                                    <ul>
+                                        <li>AMRS Analyst, Jacksonville, US</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="member">
+                                <img src="https://via.placeholder.com/50" alt="Camila McKenzie">
+                                <div>
+                                    <p class="name">Camila McKenzie</p>
+                                    <ul>
+                                        <li>LATAM Analyst, Charlotte, US</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="team-section">
+                            <div class="region-header">APAC</div>
+                            <div class="member">
+                                <img src="https://via.placeholder.com/50" alt="Chethan Somashekhar">
+                                <div>
+                                    <p class="name">Chethan Somashekhar</p>
+                                    <ul>
+                                        <li>APAC Team Lead, Singapore</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="member">
+                                <img src="https://via.placeholder.com/50" alt="Frank Escabas">
+                                <div>
+                                    <p class="name">Frank Escabas</p>
+                                    <ul>
+                                        <li>APAC Analyst, Singapore</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="member">
+                                <img src="https://via.placeholder.com/50" alt="Elvira Mahara">
+                                <div>
+                                    <p class="name">Elvira Mahara</p>
+                                    <ul>
+                                        <li>APAC Analyst, Singapore</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="member">
+                                <img src="https://via.placeholder.com/50" alt="Rehana Sultana">
+                                <div>
+                                    <p class="name">Rehana Sultana</p>
+                                    <ul>
+                                        <li>APAC Analyst, Singapore</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="member">
+                                <img src="https://via.placeholder.com/50" alt="Zhi Yang Pang">
+                                <div>
+                                    <p class="name">Zhi Yang Pang</p>
+                                    <ul>
+                                        <li>APAC Analyst, Singapore</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="team-section">
+                            <div class="region-header">EMEA</div>
+                            <div class="member">
+                                <img src="https://via.placeholder.com/50" alt="Vadym Voloshchuk">
+                                <div>
+                                    <p class="name">Vadym Voloshchuk</p>
+                                    <ul>
+                                        <li>EMEA Team Lead</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="member">
+                                <img src="https://via.placeholder.com/50" alt="Joseph Martins">
+                                <div>
+                                    <p class="name">Joseph Martins</p>
+                                    <ul>
+                                        <li>EMEA Analyst, UK</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="member">
+                                <img src="https://via.placeholder.com/50" alt="Olimpia De Veiga">
+                                <div>
+                                    <p class="name">Olimpia De Veiga</p>
+                                    <ul>
+                                        <li>EMEA Analyst, UK</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="member">
+                                <img src="https://via.placeholder.com/50" alt="Olateju Coker">
+                                <div>
+                                    <p class="name">Olateju Coker</p>
+                                    <ul>
+                                        <li>EMEA Analyst, UK</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="member">
+                                <img src="https://via.placeholder.com/50" alt="Wealth Mafemi">
+                                <div>
+                                    <p class="name">Wealth Mafemi</p>
+                                    <ul>
+                                        <li>EMEA Analyst, UK</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="team-section">
+                            <div class="region-header">GBS</div>
+                            <div class="member">
+                                <img src="https://via.placeholder.com/50" alt="Ratikanth Panda">
+                                <div>
+                                    <p class="name">Ratikanth Panda</p>
+                                    <ul>
+                                        <li>Analyst, GBS</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="member">
+                                <img src="https://via.placeholder.com/50" alt="Arun Dhaliwani">
+                                <div>
+                                    <p class="name">Arun Dhaliwani</p>
+                                    <ul>
+                                        <li>Analyst, GBS</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (page === 'processFlow') {
+                content = `
+
+                    <div class="blue-section">
+                        <div>
+                            <h2>Process Roles and Responsibilities Flow </h2>
+                        </div>
+                        <div class="profile-container">
+
+
+                            
+                            <div>
+                                <h4>Lesley Maffettone</h4>
+                                <p>COO | Global Credit, AML & Onboarding Operations & Bussiness Executive</p>
+                                <p>Pennington, NJ</p>
+                            </div>
+                            <div>
+                                    &nbsp &nbsp &nbsp &nbsp
+                            </div>
+                            
+                            <div>
+                                <h4>Tina Frostbutter</h4>
+                                <p>Business Control Manager</p>
+                                <p>Charlotte, NC</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-container">
+                        <!-- Global Test Management & Oversight -->
+                        <div class="team-section">
+                            <h3>Global Test Management & Oversight</h3>
+                            <ul>
+                                <li><strong>Folarin Akinbami:</strong> Oversee Onboarding M&I test execution</li>
+                                <li>Population assignment, materiality and advisor to LOB/Risk partners on Onboarding M&I Framework and Testing Portfolio</li>
+                                <li>Provide feedback/approval to QA test scripts</li>
+                                <li>Manage rebuttal requests and decisions</li>
+                                <li>Review data and prepare responses for both internal and Audit/GF/GC/GCOR Inquiries</li>
+                                <li>Produces Executive Reporting (i.e. Monthly Business Reviews, QA updates)</li>
+                                <li>Communications (scripts, reporting, risk partners, team)</li>
+                                <li>Metric attestation</li>
+                            </ul>
+                        </div>
+
+                        <!-- Strategy & Initiatives -->
+                        <div class="team-section">
+                            <h3>Strategy & Initiatives</h3>
+                            <ul>
+                                <li><strong>Erin Gibson:</strong> Manage OB M&I Testing Portfolio</li>
+                                <li>Audit/GFC/GCOR testing results compared to current test portfolio/scripts</li>
+                                <li>Oversee execution of all risk initiatives, including all action steps owned by OB M&I</li>
+                                <li>Maintains OB M&I Governance Framework, routines and supplemental documents to execute the model</li>
+                            </ul>
+                        </div>
+
+                        <!-- Design Specialist -->
+                        <div class="team-section">
+                            <h3>Design Specialist</h3>
+                            <ul>
+                                <li><strong>Niya McClurkin:</strong> Manage intake process for new QA requests, including targeted testing</li>
+                                <li>Test script and test procedure development</li>
+                                <li>Arrange training plan between testing team and LOB SME</li>
+                                <li>Ongoing maintenance of test scripts (with LOB and QA Manager approvals)</li>
+                                <li>Ongoing maintenance of test forms on testing tool</li>
+                                <li>Performs Validation review to ensure test is being performed by design</li>
+                            </ul>
+                        </div>
+
+                        <!-- Risk Reporting & Data Analytics -->
+                        <div class="team-section">
+                            <h3>Risk Reporting & Data Analytics</h3>
+                            <ul>
+                                <li><strong>Keegan Carlson, Suchu Arveil, Mruadi Awath:</strong> Source population reports and create metric scorecards and reporting</li>
+                                <li>Design, create and distribute internal and external BAU and ad hoc reports</li>
+                                <li>Review, assess, and interpret data into meaningful actionable points (i.e., trending, root cause analysis, controls, etc.)</li>
+                                <li>Identify and develop targeted exception reporting</li>
+                            </ul>
+                        </div>
+
+                        <!-- Test Owner Representative -->
+                        <div class="team-section">
+                            <h3>Test Owner Representative</h3>
+                            <ul>
+                                <li><strong>Michael Mehren:</strong> Identify and define testing requirements based on Enterprise Independent Testing</li>
+                                <li>Submit testing needs to Enterprise Independent Testing Teams</li>
+                                <li>Participate with EIT to set priorities and balance demand and capacity, as applicable</li>
+                                <li>Provide support in the development and implementation of requested tests</li>
+                                <li>Identify FLU/CF & Data Contacts and Data Sources, Data Elements or provide contacts</li>
+                                <li>Assist ensuring the FLU/CF & Tech Data Contacts validate population & test data</li>
+                                <li>Review, validate preliminary results & submit requests to dispute preliminary test results; or present/request for final test results in writing</li>
+                                <li>Approve test results to become final as applicable, review/communicate/escalate results</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            } else if (page === 'processInventory') {
+                content = `
+                    <div class="blue-section">
+                        <div>
+                            <h2>Process Inventory - Important Source Links</h2>
+                        </div>
+                        <div class="profile-container">
+                            <div>
+                                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                            </div>
+                            <div>
+                                &nbsp &nbsp &nbsp &nbsp
+                            </div>
+                            <div>
+                                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team1-container">
+                        <div class="button-grid">
+                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">QA Dashboards</button>
+                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">AML QA Procedures</button>
+                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Training & Guidance</button>
+                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Onboarding QA Scripts</button>
+                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">AWARE</button>
+                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">AKRITH</button>
+                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">GDS</button>
+                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">GPS</button>
+                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Replacement Tracker</button>
+                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Restrict Lift Close Tracker</button>
+                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Financial Crimes Global Standard</button>
+                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">OPS Pipeline Tableau</button>
+                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">OPS Staffing Tracker</button>
+                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">US GCB Control Unit</button>
+                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">Validation Results</button>
+                            <button class="inventory-btn" onclick="window.open('https://www.google.com', '_blank')">US Drive</button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                content = `<h1>${page}</h1><p>This is the content for ${page}.</p>`;
+            }
+            document.getElementById('mainContent').innerHTML = content;
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.main-content');
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('shifted');
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadPage('home');
+        });
+    </script>
 </body>
+
 </html>
