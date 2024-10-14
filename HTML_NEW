@@ -14,18 +14,24 @@
 
         /* Header */
         header {
-            background-color: #003366;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-        }
+    background-color: #003366;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    position: relative; /* Changed from fixed */
+    top: 0;
+    width: 100%;
+}
 
         /* Navigation Bar */
         nav {
-            background-color: #00509E;
-            text-align: center;
-            padding: 10px;
-        }
+    background-color: #00509E;
+    text-align: center;
+    padding: 10px;
+    margin-top: 0;
+    position: relative; /* Changed from fixed */
+    width: 100%;
+}
 
         nav a {
             display: inline-block;
@@ -42,64 +48,67 @@
         }
 
         /* Sidebar */
-.sidebar {
+        .sidebar {
     width: 250px;
     background-color: #003366;
     color: white;
     padding: 15px;
     float: left;
-    height: 100%;
+    height: 100vh;
+    position: relative; /* Relative positioning */
 }
-
-.sidebar a {
-    color: white;
-    text-decoration: none;
-    display: block;
-    padding: 10px 0;
-}
-.sidebar a:hover {
-    background-color: #002244;
-}
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px 0;
+        }
+        .sidebar a:hover {
+            background-color: #002244;
+        }
         /* Main content */
-.main-content {
+        .main-content {
     margin-left: 270px;
     padding: 20px;
     display: block;
+    margin-top: 20px; /* Add some top margin to separate content from nav */
 }
 
         /* Common Section Styling */
         .blue-section {
-            background-color: #004a99;
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
+    background-color: #004a99;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s forwards;
+}
         .blue-section h2 {
             margin: 0;
             font-size: 1.5em;
         }
 
         .profile-container {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-        }
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
 
         .profile-container div {
             margin-right: 20px;
         }
 
         .profile-container img {
-            border-radius: 50%;
-            width: 90px;
-            height: 90px;
-            margin-left: 15px;
-            margin-right: 15px;
-            border: 3px solid white;
-        }
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    margin-left: 15px;
+    margin-right: 15px;
+    border: 3px solid white;
+}
 
         /* Team Box Container */
         .team-container {
@@ -177,12 +186,16 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1.5s forwards;
 }
+
 
 .profile-card {
     text-align: center;
     margin: 10px;
-    flex: 1; /* Ensure the cards have space to spread evenly */
+    flex: 1;
 }
 
 .profile-card img {
@@ -192,10 +205,12 @@
     border: 3px solid white;
 }
 
+
 .profile-title {
     font-size: 1.1em;
     margin-bottom: 10px;
 }
+
 
         /* Button Grid Styles */
         .button-grid {
@@ -274,20 +289,32 @@
         }
 
         /* Footer */
-footer {
+        footer {
     background-color: #003366;
     color: white;
     text-align: center;
     padding: 20px;
-    margin-top: 20px;
     display: inline-block;
     width: 100%;
+    position: relative;
+    bottom: 0;
 }
 
-footer p {
-    margin: 0;
-    font-size: 14px;
-    color: white;
+
+        footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        @keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 
