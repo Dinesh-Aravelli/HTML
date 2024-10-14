@@ -121,14 +121,14 @@
 
         /* Main content */
         .main-content {
-            margin-left: 270px;
+            margin-left: 20px; /* Start shifted to account for collapsed sidebar */
             padding: 20px;
             padding-top: 150px; /* Adjust padding to ensure it doesn't overlap with the header and nav */
             transition: margin-left 0.3s;
         }
 
         .main-content.shifted {
-            margin-left: 20px;
+            margin-left: 270px;
         }
 
         /* Footer */
@@ -298,23 +298,6 @@
             text-align: center;
         }
 
-        /* Add animations for the second section */
-        .data-admin-title {
-            opacity: 0; /* Start hidden for fade animation */
-            transform: translateY(20px); /* Start below for up animation */
-            animation: fadeInUp 1s forwards; /* Apply animation */
-            animation-delay: 1s; /* Delay for a smoother effect */
-        }
-
-        .data-admin-cards {
-            opacity: 0; /* Start hidden for fade animation */
-            transform: translateY(20px); /* Start below for up animation */
-            animation: fadeInUp 1s forwards; /* Apply animation */
-            animation-delay: 1.5s; /* Delay for a smoother effect */
-            display: flex; /* Flex layout for horizontal alignment */
-            justify-content: center; /* Center the cards */
-        }
-
         /* Orgstructure Page - Team Directory */
         .team-container {
             display: flex;
@@ -327,8 +310,10 @@
             background-color: #ffffff;
             border-radius: 8px;
             padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             flex: 1;
             min-width: 300px;
+            max-width: 48%; /* Ensure there's space for two side-by-side */
         }
 
         .team-header {
@@ -423,6 +408,14 @@
             height: 15vh; /* Full viewport height */
         }
 
+        .ms-tableRow {
+            display: none;
+        }
+
+        #sideNavBox {
+            display: none;
+        }
+
     </style>
 </head>
 
@@ -441,8 +434,8 @@
         <a href="#" onclick="loadPage('Test Execution Team')">Test Execution Team</a>
     </div>
 
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
+    <!-- Sidebar (Collapsed by Default) -->
+    <div class="sidebar collapsed" id="sidebar">
         <button class="btn" onclick="window.open('https://www.google.com', '_blank')">AKRITH</button>
         <button class="btn" onclick="window.open('https://www.google.com', '_blank')">AWARE</button>
         <button class="btn" onclick="window.open('https://www.google.com', '_blank')">GDS</button>
@@ -823,24 +816,17 @@
                 `;
             } else if (page === 'processFlow') {
                 content = `
-
                     <div class="blue-section">
                         <div>
-                            <h2>Process Roles and Responsibilities Flow </h2>
+                            <h2>Process Roles and Responsibilities Flow</h2>
                         </div>
                         <div class="profile-container">
-
-
-                            
                             <div>
                                 <h4>Lesley Maffettone</h4>
                                 <p>COO | Global Credit, AML & Onboarding Operations & Bussiness Executive</p>
                                 <p>Pennington, NJ</p>
                             </div>
-                            <div>
-                                    &nbsp &nbsp &nbsp &nbsp
-                            </div>
-                            
+                            <div>&nbsp;&nbsp;&nbsp;&nbsp;</div>
                             <div>
                                 <h4>Tina Frostbutter</h4>
                                 <p>Business Control Manager</p>
@@ -892,7 +878,7 @@
                         <div class="team-section">
                             <h3>Risk Reporting & Data Analytics</h3>
                             <ul>
-                                <li><strong>Keegan Carlson, Suchu Arveil, Mruadi Awath:</strong> Source population reports and create metric scorecards and reporting</li>
+                                <li><strong>Keegan Carlson, Seshu Aravelli, Mradul Awasthi:</strong> Source population reports and create metric scorecards and reporting</li>
                                 <li>Design, create and distribute internal and external BAU and ad hoc reports</li>
                                 <li>Review, assess, and interpret data into meaningful actionable points (i.e., trending, root cause analysis, controls, etc.)</li>
                                 <li>Identify and develop targeted exception reporting</li>
@@ -961,13 +947,12 @@
         }
 
         function toggleSidebar(event) {
-    event.preventDefault(); // Prevents the page from refreshing
-    const sidebar = document.getElementById('sidebar');
-    const mainContent = document.querySelector('.main-content');
-    sidebar.classList.toggle('collapsed');
-    mainContent.classList.toggle('shifted');
-}
-
+            event.preventDefault(); // Prevents the page from refreshing
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.main-content');
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('shifted');
+        }
 
         document.addEventListener('DOMContentLoaded', function () {
             loadPage('home');
